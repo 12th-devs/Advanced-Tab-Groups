@@ -154,6 +154,7 @@ class AdvancedTabGroupsCloseButton {
     labelElement.style.display = 'none';
     const input = document.createElement('input');
     input.id = 'tab-label-input';
+    input.className = 'tab-group-label';
     input.type = 'text';
     input.value = group.label || labelElement.textContent || '';
     input.setAttribute('autocomplete', 'off');
@@ -169,7 +170,7 @@ class AdvancedTabGroupsCloseButton {
       try {
         const len = input.value.length;
         input.setSelectionRange(len, len);
-      } catch (_) {}
+      } catch (_) { }
     }
     input.addEventListener('keydown', this.renameGroupKeydown.bind(this));
     input.addEventListener('blur', this.renameGroupHalt.bind(this));
@@ -222,16 +223,20 @@ class AdvancedTabGroupsCloseButton {
     const groupDomFrag = window.MozXULElement.parseXULToFragment(`
       <div class="tab-group-icon-container">
         <div class="tab-group-icon">
-          <image class="group-stash-button stash-icon" role="button" keyNav="false" tooltiptext="Stash Group"/>
+          <image class="group-marker" role="button" keyNav="false" tooltiptext="Toggle Group"/>
         </div>
       </div>
+      <image class="group-stash-button stash-icon" role="button" keyNav="false" tooltiptext="Stash Group"/>
       <image class="tab-close-button close-icon" role="button" keyNav="false" tooltiptext="Close Group"/>
     `);
     const iconContainer = groupDomFrag.children[0];
-    const closeButton = groupDomFrag.children[1];
+    const stashButton = groupDomFrag.children[1];
+    const closeButton = groupDomFrag.children[2];
 
     // Insert the icon container at the beginning of the label container
     labelContainer.insertBefore(iconContainer, labelContainer.firstChild);
+    // Add the stash button to the label container
+    labelContainer.appendChild(stashButton);
     // Add the close button to the label container
     labelContainer.appendChild(closeButton);
 

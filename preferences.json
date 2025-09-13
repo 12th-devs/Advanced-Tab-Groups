@@ -2,12 +2,46 @@
   {
     "property": "browser.tabs.groups.enabled",
     "type": "checkbox",
-    "label": "Enables Tab Groups in the Zen Browser.",
+    "label": "Enable Tab Groups in the Zen Browser.",
     "default": "true",
     "force": "true"
   },
   {
+    "property": "browser.tabs.groups.add-arrow",
+    "type": "checkbox",
+    "label": "Add an arrow icon for tab groups.",
+    "default": "true",
+    "conditions": [
+      {
+        "if": {
+          "property": "browser.tabs.groups.arc-style",
+          "value": false
+        }
+      }
+    ]
+  },
+  {
     "type": "separator",
-    "label": "More coming later, this is just a beta release."
+    "label": "Bonus feature"
+  },
+  {
+    "type": "text",
+    "label": "EITHER …",
+    "margin": "var(--space-medium) 0R var(--space-medium) 22px"
+  },
+  {
+    "property": "browser.tabs.groups.arc-style",
+    "type": "checkbox",
+    "label": "Apply Arc-like group styling"
+  },
+  {
+    "type": "text",
+    "label": "… OR",
+    "margin": "var(--space-large ) 0R var(--space-medium) 22px"
+  },
+  {
+    "property": "browser.tabs.groups.edge-style",
+    "type": "checkbox",
+    "label": "Apply Edge-like group styling"
   }
 ]

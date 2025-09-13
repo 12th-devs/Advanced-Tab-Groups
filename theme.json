@@ -3,11 +3,11 @@
     "name": "Advanced Tab Groups (BETA)",
     "description": "Tab Groups for Zen Browser",
     "js": true,
-    "homepage": "https://github.com/Anoms12/Advanced-Tab-Groups",
-    "preferences": "https://raw.githubusercontent.com/Anoms12/Advanced-Tab-Groups/main/preferences.json",
-    "style": "https://raw.githubusercontent.com/Anoms12/Advanced-Tab-Groups/main/userChrome.css",
-    "readme": "https://raw.githubusercontent.com/Anoms12/Advanced-Tab-Groups/main/README.md",
-    "image": "https://raw.githubusercontent.com/Anoms12/Advanced-Tab-Groups/main/image.png",
+    "homepage": "https://github.com/Wacky-Wombat/Advanced-Tab-Groups-dev",
+    "preferences": "https://raw.githubusercontent.com/Wacky-Wombat/Advanced-Tab-Groups-dev/main/preferences.json",
+    "style": "https://raw.githubusercontent.com/Wacky-Wombat/Advanced-Tab-Groups-dev/main/userChrome.css",
+    "readme": "https://raw.githubusercontent.com/Wacky-Wombat/Advanced-Tab-Groups-dev/main/README.md",
+    "image": "https://raw.githubusercontent.com/Wacky-Wombat/Advanced-Tab-Groups-dev.png",
     "author": "12th",
     "version": "3.0.0b",
     "tags": [
@@ -18,6 +18,6 @@
         "12th"
     ],
     "createdAt": "2025-05-13",
-    "updatedAt": "2025-09-10 15:30",
+    "updatedAt": "2025-09-12 20:01",
     "fork": ["zen"]
 }

@@ -6,7 +6,6 @@ tab-group:not([split-view-group]) {
   --tab-group-color-pale: transparent !important;
 
   .tab-group-label-container {
-    contain: inline-size !important;
     height: 36px !important;
     margin: 0 !important;
     padding: 0 10px 0 0 !important;
@@ -14,71 +13,89 @@ tab-group:not([split-view-group]) {
     display: flex !important;
     align-items: center !important;
 
+    &:hover {
+      background-color: var(--tab-hover-background-color) !important;
+
+      @media (-moz-bool-pref: "browser.tabs.groups.stash-icon") {
+        .group-stash-button {
+          -moz-window-dragging: no-drag !important;
+          visibility: visible !important;
+          list-style-image: url("chrome://browser/skin/taskbar-tabs-add-tab.svg");
+          /*list-style-image: url("chrome://browser/skin/taskbar-tabs-move-tab.svg");*/
+          width: 16px;
+          height: 16px;
+          margin-inline: auto 0;
+          -moz-context-properties: fill, fill-opacity;
+          fill: currentColor;
+          scale: .85;
+        }
+      }
+
+      .tab-close-button {
+        -moz-window-dragging: no-drag !important;
+        visibility: visible !important;
+        display: flex;
+      }
+    }
+
     .tab-group-icon-container {
       margin: 0 6px 0 10px;
-      .tab-group-icon {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        background: var(--advanced-tab-color);
-        min-width: 16px !important;
-        width: 16px;
-        height: 16px;
-        border-radius: 4px;
-        position: relative;
 
-        &:hover {
-          .stash-icon {
-            appearance: none;
-            -moz-context-properties: fill, fill-opacity;
-            /*list-style-image: url(chrome://browser/skin/zen-icons/arrow-down.svg) !important; */
-            border-radius: 4px;
-            color: inherit;
-            fill: currentColor;
-            padding: 1px;
-            width: 16px;
-            height: auto;
+      @media (-moz-bool-pref: "browser.tabs.groups.add-arrow") {
+        .group-marker {
+          appearance: none;
+          -moz-context-properties: fill, fill-opacity;
+          list-style-image: url(chrome://browser/skin/zen-icons/arrow-right.svg) !important;
+          border-radius: 4px;
+          color: inherit;
+          fill: currentColor;
+          padding: 1px;
+          width: 16px;
+          height: auto;
+          rotate: 90deg;
+          transition: rotate .25s ease-out;
+
+          &:hover {
             outline: var(--toolbarbutton-outline);
           }
         }
       }
     }
 
+    .tab-group-icon {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      background: var(--advanced-tab-color);
+      min-width: 16px !important;
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      position: relative;
+    }
+
     .tab-group-label {
-      direction: ltr !important;
-      mask-image: linear-gradient(to left, transparent, black 1em) !important;
       margin-right: auto !important;
       width: 100%;
       background: transparent !important;
-      color: var(--toolbox-textcolor) !important;
+      color: var(--tab-selected-textcolor) !important;
+
       &:-moz-window-inactive {
-        color: var(--toolbox-textcolor-inactive);
+        color: var(--toolbox-textcolor-inactive) !important;
       }
-      font-weight: 500 !important;
+
+      font-weight: 600 !important;
       display: flex;
       flex-direction: row;
       align-items: center;
       gap: 5px;
-    }
-      
-      .tab-close-button {
-          display: none;
-      }
-
-    &:hover {
-      background-color: var(--tab-hover-background-color) !important;
-      .tab-close-button {
-        -moz-window-dragging: no-drag !important;
-        visibility: visible !important;
-          display: flex;
-      }
     }
   }
 
   .tab-group-container {
     max-height: 100% !important;
     position: relative;
-    margin-left: 12px !important;
+    margin-inline-start: 12px !important;
 
     &::after {
       content: "";
@@ -95,15 +112,200 @@ tab-group:not([split-view-group]) {
       max-height: 40px;
       opacity: 1;
       overflow: hidden;
-      transition: max-height 0.10s ease, opacity 0.10s ease !important;
+      transition: scale 0.07s ease, var(--zen-tabbox-element-indent-transition), min-width 100ms ease-out, max-width 100ms ease-out, max-height 0.10s ease, opacity 0.10s ease !important;
     }
   }
 
-  &[collapsed=""] {
+
+  &[collapsed] {
+    .tab-group-label-container {
+      .tab-group-icon {
+        @media (-moz-bool-pref: "browser.tabs.groups.add-arrow") {
+          .group-marker {
+            rotate: 0deg;
+          }
+        }
+      }
+    }
+
     .tab-group-container {
       tab:not([selected]) {
         max-height: 0 !important;
         opacity: 0 !important;
+      }
+    }
+  }
+}
+
+
+/* Arc-like group styling */
+@media (-moz-bool-pref: "browser.tabs.groups.arc-style") and (not (-moz-bool-pref: "browser.tabs.groups.edge-style")) {
+
+  tab-group:not([split-view-group]) {
+    .tab-group-label-container {
+
+      margin-block: var(--space-large) var(--space-small) !important;
+
+      &:hover {
+        background-color: transparent !important;
+
+        .group-stash-button {
+          opacity: .75;
+        }
+
+        .tab-close-button {
+          opacity: .75;
+        }
+      }
+
+      .tab-group-icon {
+        display: none !important;
+      }
+
+      .tab-group-label {
+        font-size: .9em;
+        opacity: .75;
+        padding-inline: 0 var(--space-medium) !important;
+
+        #tabbrowser-tabs[orient="vertical"] & {
+          #tabbrowser-tabs[expanded] & {
+            margin-inline-end: var(--space-medium);
+          }
+        }
+      }
+    }
+
+    .tab-group-container {
+      margin-inline-start: 0 !important;
+      margin-block-end: var(--space-medium);
+
+      &::after {
+        content: none;
+      }
+
+      &[collapsed] {
+        .tab-group-container {
+          margin-inline-end: var(--space-small);
+        }
+      }
+    }
+  }
+}
+
+
+/* Edge-like group styling */
+@media (-moz-bool-pref: "browser.tabs.groups.edge-style") and (not (-moz-bool-pref: "browser.tabs.groups.arc-style")) {
+
+  tab-group:not([split-view-group]) {
+
+    .tab-group-label-container {
+      display: grid !important;
+      grid-template-areas: "icon label stash close";
+      grid-template-columns: auto auto 1fr auto;
+      height: 26px !important;
+      margin-block: 8px 4px !important;
+
+      .tab-close-button,
+      .group-stash-button {
+        justify-self: end;
+        color: unset;
+
+      }
+
+      &:hover {
+        background-color: transparent !important;
+
+        .tab-close-button {}
+      }
+
+      /* first column, area "icon" */
+      .tab-group-icon-container {
+
+        grid-area: icon;
+        margin-inline-end: 0 !important;
+
+        .group-marker {
+          -moz-context-properties: fill, fill-opacity;
+          list-style-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M184.75,413.15l2.1-1.8,156.5-136c5.3-4.6,8.6-11.5,8.6-19.2s-3.4-14.6-8.6-19.2L187.15,101.05l-2.6-2.3c-2.5-1.7-5.5-2.7-8.7-2.7-8.7,0-15.8,7.4-15.8,16.6v286.8c0,9.2,7.1,16.6,15.8,16.6,3.3,0,6.4-1.1,8.9-2.9h0Z"/></svg>') !important;
+          fill: currentColor;
+          width: 20px;
+          height: 20px;
+          rotate: 45deg;
+          transition: none;
+          translate: 0 .15em;
+
+          /* dirty :( */
+          @media (prefers-color-scheme: light) {
+            filter: invert(1);
+          }
+
+          &:hover {}
+        }
+      }
+
+      .tab-group-icon {
+        background-color: transparent;
+      }
+
+      .tab-group-label {
+
+        grid-area: label;
+        max-width: none !important;
+
+        @media (prefers-color-scheme: dark) {
+          color: var(--color-gray-100) !important;
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-color: var(--advanced-tab-color);
+          visibility: visible;
+          grid-area: label;
+          width: 100%;
+          height: 100% !important;
+          z-index: -1;
+          border-radius: .75em;
+          margin-inline-start: -24px;
+          padding-inline-start: 36px;
+        }
+      }
+
+      #tab-label-input {
+        align-self: center !important;
+        width: -moz-available;
+        text-align: start;
+      }
+    }
+
+    .tab-group-container {
+
+      &::after {
+        left: -8px !important;
+        top: 0;
+        background: var(--advanced-tab-color);
+        /*height: 100%;*/
+        width: 4px;
+        border-radius: 2px;
+      }
+
+      tab {}
+    }
+
+
+    &[collapsed] {
+      .tab-group-label-container {
+        .tab-group-icon {
+          .group-marker {
+            rotate: 0deg;
+            translate: 0 0;
+          }
+        }
+      }
+
+      .tab-group-container {
+        tab:not([selected]) {}
       }
     }
   }
